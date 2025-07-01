@@ -20,32 +20,22 @@
       font-size: 1.2em;
     }
 
-    .avatar-grid {
+  .avatar-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       justify-content: center;
-      align-items: center;
     }
     
-    .avatar-wrapper {
-      padding: 2px;
-      border-radius: 50%;
-      background: linear-gradient(180deg, #ff0000, #ffaa00);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .avatar-wrapper img {
+    .avatar-grid img {
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      background-color: #1e1f29;
+      border: 2px solid #ff0000;
       transition: transform 0.2s;
-      display: block;
     }
-    .avatar-wrapper img:hover {
+    
+    .avatar-grid img:hover {
       transform: scale(1.2);
     }
 
@@ -90,9 +80,7 @@
       img.src = member.avatar_url;
       img.alt = member.username;
       img.title = member.nick || member.username;
-
-      wrapper.appendChild(img);
-      grid.appendChild(wrapper);
+      grid.appendChild(img);
     });
 
     } catch (err) {
