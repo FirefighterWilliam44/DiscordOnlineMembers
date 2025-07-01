@@ -71,7 +71,7 @@
       data.members.forEach(member => {
     const img = document.createElement("img");
 
-    img.src = member.avatar_url || `https://cdn.discordapp.com/embed/avatars/0.png`;
+    img.src = member.avatar_url;
     img.alt = member.username;
     img.title = member.nick || member.username;
 
