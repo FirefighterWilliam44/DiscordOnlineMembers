@@ -59,7 +59,7 @@
 
     async function fetchWidget() {
       try {
-        const res = await fetch(\`https://discord.com/api/guilds/\${serverId}/widget.json\`);
+        const res = await fetch(`https://discord.com/api/guilds/${serverId}/widget.json`);
         const data = await res.json();
 
         const grid = document.getElementById("avatar-grid");
