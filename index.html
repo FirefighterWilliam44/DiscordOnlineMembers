@@ -68,8 +68,8 @@
       grid.innerHTML = "";
       count.textContent = `${data.presence_count} user${data.presence_count !== 1 ? "s" : ""} online`;
 
-      const humans = data.members.filter(m => m.discriminator === 0);
-      const bots = data.members.filter(m => m.discriminator !== 0);
+      const humans = data.members.filter(member => member.discriminator === "0");
+      const bots = data.members.filter(member => member.discriminator !== "0");
       const sortedMembers = [...humans, ...bots];
 
       sortedMembers.forEach(member => {
