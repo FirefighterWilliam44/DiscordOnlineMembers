@@ -69,16 +69,15 @@
       count.textContent = `${data.presence_count} user${data.presence_count !== 1 ? "s" : ""} online`;
 
       data.members.forEach(member => {
-        const avatarUrl = member.avatar
-          ? `https://cdn.discordapp.com/avatars/${member.id}/${member.avatar}.png`
-          : `https://cdn.discordapp.com/embed/avatars/${parseInt(member.discriminator) % 5}.png`;
+    const img = document.createElement("img");
 
-        const img = document.createElement("img");
-        img.src = avatarUrl;
-        img.alt = member.username;
-        img.title = member.nick || member.username;
-        grid.appendChild(img);
-      });
+    img.src = member.avatar_url || `https://cdn.discordapp.com/embed/avatars/0.png`;
+    img.alt = member.username;
+    img.title = member.nick || member.username;
+
+    grid.appendChild(img);
+  });
+
 
     } catch (err) {
       console.error("Failed to fetch widget.json:", err);
