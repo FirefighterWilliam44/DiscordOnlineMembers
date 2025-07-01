@@ -20,22 +20,23 @@
       font-size: 1.2em;
     }
 
-    .avatar-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: center;
+    .avatar-wrapper {
+      padding: 3px;
+      border-radius: 50%;
+      background: linear-gradient(0deg, #ff0000, #ffaa00);
+      display: inline-block;
     }
 
-    .avatar-grid img {
+    .avatar-wrapper img {
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      border: 2px solid #5865f2;
+      display: block;
+      background-color: #1e1f29;
       transition: transform 0.2s;
     }
 
-    .avatar-grid img:hover {
+    .avatar-wrapper img:hover {
       transform: scale(1.2);
     }
 
@@ -68,33 +69,22 @@
       grid.innerHTML = "";
       count.textContent = `${data.presence_count} user${data.presence_count !== 1 ? "s" : ""} online`;
 
-      const humans = data.members
-        .filter(m => m.discriminator === "0")
-        .sort((a, b) => {
-          const nameA = (a.nick || a.username).toLowerCase();
-          const nameB = (b.nick || b.username).toLowerCase();
-          return nameA.localeCompare(nameB);
-        });
-
-      const bots = data.members
-        .filter(m => m.discriminator !== "0")
-        .sort((a, b) => {
-          const nameA = (a.nick || a.username).toLowerCase();
-          const nameB = (b.nick || b.username).toLowerCase();
-          return nameA.localeCompare(nameB);
-        });
-
+      const bots = data.members.filter(m => m.username.endsWith("[BOT]"));
+      const humans = data.members.filter(m => !m.username.endsWith("[BOT]"));
       const sortedMembers = [...humans, ...bots];
 
       sortedMembers.forEach(member => {
-        const img = document.createElement("img");
-        img.src = member.avatar_url;
-        img.alt = member.username;
-        img.title = member.nick || member.username;
-        grid.appendChild(img);
-        console.log(member.username, member.discriminator)
-      });
+      const wrapper = document.createElement("div");
+      wrapper.className = "avatar-wrapper";
 
+      const img = document.createElement("img");
+      img.src = member.avatar_url;
+      img.alt = member.username;
+      img.title = member.nick || member.username;
+
+      wrapper.appendChild(img);
+      grid.appendChild(wrapper);
+    });
 
     } catch (err) {
       console.error("Failed to fetch widget.json:", err);
