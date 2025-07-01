@@ -68,8 +68,22 @@
       grid.innerHTML = "";
       count.textContent = `${data.presence_count} user${data.presence_count !== 1 ? "s" : ""} online`;
 
-      const humans = data.members.filter(member => member.discriminator === "0");
-      const bots = data.members.filter(member => member.discriminator !== "0");
+      const humans = data.members
+        .filter(m => m.discriminator === "0")
+        .sort((a, b) => {
+          const nameA = (a.nick || a.username).toLowerCase();
+          const nameB = (b.nick || b.username).toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
+
+      const bots = data.members
+        .filter(m => m.discriminator !== "0")
+        .sort((a, b) => {
+          const nameA = (a.nick || a.username).toLowerCase();
+          const nameB = (b.nick || b.username).toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
+
       const sortedMembers = [...humans, ...bots];
 
       sortedMembers.forEach(member => {
@@ -79,6 +93,7 @@
         img.title = member.nick || member.username;
         grid.appendChild(img);
       });
+
 
     } catch (err) {
       console.error("Failed to fetch widget.json:", err);
