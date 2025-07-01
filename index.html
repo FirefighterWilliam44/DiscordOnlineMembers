@@ -68,16 +68,19 @@
       grid.innerHTML = "";
       count.textContent = `${data.presence_count} user${data.presence_count !== 1 ? "s" : ""} online`;
 
-      data.members.forEach(member => {
-    const img = document.createElement("img");
+      const sortedMembers = data.members.sort((a, b) => {
+        return (a.bot === b.bot) ? 0 : a.bot ? 1 : -1;
+      });
 
-    img.src = member.avatar_url;
-    img.alt = member.username;
-    img.title = member.nick || member.username;
+      sortedMembers.forEach(member => {
+        const img = document.createElement("img");
 
-    grid.appendChild(img);
-  });
+        img.src = member.avatar_url;
+        img.alt = member.username;
+        img.title = member.nick || member.username;
 
+        grid.appendChild(img);
+      });
 
     } catch (err) {
       console.error("Failed to fetch widget.json:", err);
