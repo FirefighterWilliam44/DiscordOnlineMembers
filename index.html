@@ -53,7 +53,7 @@
   <div class="avatar-grid" id="avatar-grid"></div>
   <div class="footer">Powered by Discord Widget API</div>
 
- <script>
+<script>
   const serverId = "1352563259739475979";
   const fetchInterval = 30000;
 
@@ -68,17 +68,15 @@
       grid.innerHTML = "";
       count.textContent = `${data.presence_count} user${data.presence_count !== 1 ? "s" : ""} online`;
 
-      const sortedMembers = data.members.sort((a, b) => {
-        return (a.bot === b.bot) ? 0 : a.bot ? 1 : -1;
-      });
+      const humans = data.members.filter(m => m.discriminator === "0");
+      const bots = data.members.filter(m => m.discriminator !== "0");
+      const sortedMembers = [...humans, ...bots];
 
       sortedMembers.forEach(member => {
         const img = document.createElement("img");
-
         img.src = member.avatar_url;
         img.alt = member.username;
         img.title = member.nick || member.username;
-
         grid.appendChild(img);
       });
 
@@ -91,6 +89,7 @@
   fetchWidget();
   setInterval(fetchWidget, fetchInterval);
 </script>
+
 
 </body>
 </html>
