@@ -68,19 +68,20 @@
       grid.innerHTML = "";
       count.textContent = `${data.presence_count} user${data.presence_count !== 1 ? "s" : ""} online`;
 
-      const bots = data.members.filter(m => m.username.endsWith("[BOT]"));
-      const humans = data.members.filter(m => !m.username.endsWith("[BOT]"));
-      const sortedMembers = [...humans, ...bots];
+      const members = data.members || [];
 
-      sortedMembers.forEach(member => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "avatar-wrapper";
-
-      const img = document.createElement("img");
-      img.src = member.avatar_url;
-      img.alt = member.username;
-      img.title = member.nick || member.username;
-      grid.appendChild(img);
+      const humanMembers = members.filter(member => !member.username.endsWith("[BOT]"));
+      
+      count.textContent = `${humanMembers.length} user${humanMembers.length !== 1 ? "s" : ""} online`;
+      
+      grid.innerHTML = "";
+      humanMembers.forEach(member => {
+        const img = document.createElement("img");
+        img.src = member.avatar_url;
+        img.alt = member.username;
+        img.title = member.nick || member.username;
+        grid.appendChild(img);
+      });
     });
 
     } catch (err) {
